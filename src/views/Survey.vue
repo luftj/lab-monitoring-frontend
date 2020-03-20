@@ -68,9 +68,9 @@
                     :disabled="!valid"
                     color="success"
                     class="mr-4"
-                    @click="validate"
+                    @click="submit"
                   >
-                    Validate
+                    Submit
                   </v-btn>
 
                   <v-btn
@@ -101,38 +101,34 @@ export default Vue.extend({
   },
   data: () => ({
     valid: true,
-      name: '',
-      nameRules: [
-        v => !!v || 'Username is required'
-      ],
-      zipCodeHome: '',
-      zipCodeWork: '',
-      zipCodeRules: [
-        v => !!v || 'ZIP Code is required',
-        v => (v && !isNaN(parseInt(v, 10)) && v.length === 5) || 'PLZ muss aus 5 Ziffern bestehen'
-      ],
-      select: null,
-      items: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
-      checkbox: false,
-      lazy: false,
-    }),
+    name: '',
+    nameRules: [
+      v => !!v || 'Username is required'
+    ],
+    zipCodeHome: '',
+    zipCodeWork: '',
+    zipCodeRules: [
+      v => !!v || 'ZIP Code is required',
+      v => (v && !isNaN(parseInt(v, 10)) && v.length === 5) || 'PLZ muss aus 5 Ziffern bestehen'
+    ],
+    select: null,
+    items: [
+      'Item 1',
+      'Item 2',
+      'Item 3',
+      'Item 4'
+    ],
+    checkbox: false,
+    lazy: false
+  }),
 
-    methods: {
-      validate () {
-        this.$refs.form.validate()
-      },
-      reset () {
-        this.$refs.form.reset()
-      },
-      resetValidation () {
-        this.$refs.form.resetValidation()
-      },
+  methods: {
+    submit () {
+      this.$refs.form.submit()
     },
-  })
+    reset () {
+      this.$refs.form.reset()
+    }
+  }
 })
 </script>

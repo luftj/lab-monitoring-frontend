@@ -3,7 +3,6 @@ module.exports = {
   env: {
     node: true
   },
-  defaultSeverity: "warning",
   extends: [
     'plugin:vue/essential',
     '@vue/standard',
@@ -15,10 +14,5 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  },
-  linterOptions: {
-    exclude: [
-      "node_modules/**"
-    ]
   }
 }
