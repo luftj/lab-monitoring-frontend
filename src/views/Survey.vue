@@ -18,7 +18,10 @@
                 dark
                 flat
               >
-                <v-toolbar-title>Umfrage</v-toolbar-title>
+                <v-toolbar-title>
+                  Umfrage
+                  <p><small>You can always update your Submission for one day</small></p>
+                </v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <v-form
@@ -26,43 +29,165 @@
                   v-model="valid"
                   lazy-validation
                 >
-                  <v-text-field
-                    v-model="name"
-                    :rules="nameRules"
-                    label="Username"
-                    required
-                  ></v-text-field>
+                  <v-col>
+                    <h3>Personal Information</h3>
+                    <v-text-field
+                      v-model="formData.id"
+                      :rules="idRules"
+                      label="Nickname"
+                      hint="Please always use the same nickname"
+                      required
+                    ></v-text-field>
 
-                  <v-text-field
-                    v-model="zipCodeHome"
-                    :rules="zipCodeRules"
-                    :counter="5"
-                    label="PLZ Wohnort"
-                    required
-                  ></v-text-field>
+                    <v-text-field
+                      v-model="formData.plzHome"
+                      :rules="plzRules"
+                      :counter="5"
+                      label="PLZ Wohnort"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="formData.age"
+                      type="number"
+                      label="Age"
+                    ></v-text-field>
+
+                    <v-radio-group
+                      row
+                      v-model="formData.gender"
+                      label="Gender"
+                    >
+                      <v-radio
+                        key="F"
+                        label="F"
+                        value="F"
+                      ></v-radio>
+                      <v-radio
+                        key="M"
+                        label="M"
+                        value="M"
+                      ></v-radio>
+                      <v-radio
+                        key="D"
+                        label="D"
+                        value="D"
+                      ></v-radio>
+                    </v-radio-group>
+                  </v-col>
 
                   <!-- <v-text-field
-                    v-model="zipCodeWork"
-                    :rules="zipCodeRules"
+                    v-model="formData.plzWork"
+                    :rules="plzRules"
                     :counter="5"
                     label="PLZ Arbeitsplatz"
                     required
                   ></v-text-field> -->
 
-                  <v-select
-                    v-model="select"
-                    :items="items"
+                  <!-- <v-select
+                    v-model="formData.videoApp"
+                    :items="videoApps"
                     :rules="[v => !!v || 'Item is required']"
-                    label="Item"
-                    required
-                  ></v-select>
+                    :value="videoApps[0]"
+                    label="What Video Call App have you used?"
+                    multiple
+                    hint="Multiple selections possible"
+                  ></v-select> -->
 
-                  <v-checkbox
-                    v-model="checkbox"
-                    :rules="[v => !!v || 'You must agree to continue!']"
-                    label="Stimmen Sie der Nutzung ihrer anoymisierten Daten für die Forschung zu?"
-                    required
-                  ></v-checkbox>
+                  <v-col>
+                    <h3>Video Calls / Screen Time</h3>
+                    <v-combobox
+                      v-model="formData.videoApp"
+                      :items="videoApps"
+                      label="What Video Call App have you used?"
+                      hint="Multiple selections possible"
+                      multiple
+                      chips
+                    ></v-combobox>
+
+                    <v-text-field
+                      v-model="formData.avgCallSize"
+                      type="number"
+                      label="Avg. Number of People in a Call"
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="formData.maxCallSize"
+                      type="number"
+                      label="Max. Number of People in one Call"
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="formData.screenHours"
+                      type="number"
+                      label="Screen Hours Today"
+                      suffix="h"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col>
+                    <h3>Mood</h3>
+                    <v-radio-group
+                        row
+                        v-model="formData.mood"
+                        label="Today"
+                        hint="1: Miserable, 5: Awesome"
+                      >
+                        <v-radio
+                          v-for="n in 5"
+                          :key="n"
+                          :label="`${n}`"
+                          :value="n"
+                        ></v-radio>
+                      </v-radio-group>
+
+                      <v-text-field
+                        label="In One Word"
+                        v-model="formData.moodTag"
+                        :rules="moodRules"
+                        hint="Describe your mood in one word."
+                      ></v-text-field>
+                  </v-col>
+
+                  <v-col>
+                    <h3>Encounters</h3>
+                    <v-text-field
+                      type="number"
+                      v-model="formData.peopleMetRealWorld"
+                      label="People met in person"
+                    ></v-text-field>
+
+                    <v-text-field
+                      type="number"
+                      v-model="formData.peopleMetOnline"
+                      label="People met online"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col>
+                    <h3>Movement</h3>
+                    <v-text-field
+                      type="number"
+                      v-model="formData.kmTravelled"
+                      suffix="km"
+                      label="Kilometer travelled"
+                    ></v-text-field>
+                    <v-text-field
+                      type="number"
+                      v-model="formData.hoursOutside"
+                      suffix="h"
+                      label="Hours spent outside"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col>
+                    <v-checkbox
+                      v-model="checkbox"
+                      :rules="[v => !!v || 'You must agree to continue!']"
+                      label="Stimmen Sie der Nutzung ihrer anoymisierten Daten für die Forschung zu?"
+                      required
+                    ></v-checkbox>
+                  </v-col>
 
                   <v-btn
                     :disabled="!valid"
@@ -75,7 +200,7 @@
 
                   <v-btn
                     color="secondary"
-                    outlined="true"
+                    outlined
                     class="mr-4"
                     @click="reset"
                   >
@@ -93,7 +218,7 @@
 <script lang="ts">
 // @ is an alias to /src
 import Vue from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue'
+import axios from 'axios'
 
 export default Vue.extend({
   name: 'Survey',
@@ -101,30 +226,52 @@ export default Vue.extend({
   },
   data: () => ({
     valid: true,
-    name: '',
-    nameRules: [
+    idRules: [
       v => !!v || 'Username is required'
     ],
-    zipCodeHome: '',
-    zipCodeWork: '',
-    zipCodeRules: [
+    moodRules: [
+      v => (!v || !(v as string).includes(' ')) || 'Please enter only 1 word'
+    ],
+    plzRules: [
       v => !!v || 'ZIP Code is required',
       v => (v && !isNaN(parseInt(v, 10)) && v.length === 5) || 'PLZ muss aus 5 Ziffern bestehen'
     ],
-    select: null,
-    items: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4'
+    videoApps: [
+      'Skype',
+      'WebEx',
+      'Zoom',
+      'Wire',
+      'WhatsApp Video Call'
     ],
     checkbox: false,
-    lazy: false
+    lazy: false,
+    formData: {
+      id: '',
+      plzHome: '',
+      gender: '',
+      mood: 3,
+      moodTag: '',
+      videoApp: null,
+      maxCallSize: 0,
+      avgCallSize: 0,
+      screenHours: 0,
+      peopleMetRealWorld: 0,
+      peopleMetOnline: 0
+    },
+    errors: []
   }),
 
   methods: {
     submit () {
-      this.$refs.form.submit()
+      if (this.$refs.form.validate()) {
+        axios.post('http://localhost:5000/submit', this.formData)
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(e => this.errors.push(e))
+      } else {
+        alert('Please fill in all required fields.')
+      }
     },
     reset () {
       this.$refs.form.reset()
@@ -132,3 +279,9 @@ export default Vue.extend({
   }
 })
 </script>
+<style lang="scss" scoped>
+  .category {
+    color: #778f9b;
+    font-size: 1rem;
+  }
+</style>

@@ -42,7 +42,7 @@
                 <v-spacer></v-spacer>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn color="secondary" outlined="true" v-on="on">Registrieren</v-btn>
+                    <v-btn color="secondary" outlined v-on="on">Registrieren</v-btn>
                   </template>
                   <span>Es werden keine persönlichen Daten erhoben oder gespeichert.</span>
                 </v-tooltip>
