@@ -309,6 +309,7 @@ export default Vue.extend({
 
   computed: {
     user () {
+      console.log(store.state.userdata)
       return store.state.userdata;
     },
     formData () {
