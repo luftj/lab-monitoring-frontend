@@ -115,7 +115,8 @@ export default Vue.extend({
     submit () {
       Axios.post(process.env.VUE_APP_API_URL + '/login', this.user)
         .then(res => {
-          const userid = res.data.toString();
+          const userid = res.data.id.toString();
+          console.log(res.data.userdata)
           const user = {
             userid: userid,
             userdata: this.user
