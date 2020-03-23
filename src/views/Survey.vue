@@ -349,7 +349,7 @@ export default Vue.extend({
       store.dispatch('simpleDialog', {
         title: 'Oops...',
         msg: '<b>Something went wrong :/ </b><br />'+
-          "We're probably working on it!</p>"+
+          " We're probably working on it!</p>"+
           '<h4>Please come back and try again later!</h4>'
       });
     },
