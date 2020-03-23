@@ -34,8 +34,15 @@
             v-model="user.plzHome"
             :rules="plzRules"
             :counter="5"
-            label="PLZ Wohnort"
+            label="PLZ Home"
             required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="user.plzWork"
+            :rules="plzRules"
+            :counter="5"
+            label="PLZ Work"
           ></v-text-field>
 
           <v-text-field
@@ -65,6 +72,14 @@
               value="D"
             ></v-radio>
           </v-radio-group>
+          <v-combobox
+            v-model="user.work"
+            :items="defaults.work"
+            label="Line of Work / Profession"
+            hint="Multiple selections possible. Add your own."
+            multiple
+            chips
+          ></v-combobox>
         </v-col>
       </v-form>
     </v-card-text>
@@ -111,6 +126,11 @@ export default Vue.extend({
       v => (v && !isNaN(parseInt(v, 10)) && v.length === 5) || 'PLZ muss aus 5 Ziffern bestehen'
     ],
   }),
+  computed: {
+    defaults () {
+      return store.state.defaults;
+    }
+  },
   methods: {
     submit () {
       Axios.post(process.env.VUE_APP_API_URL + '/login', this.user)

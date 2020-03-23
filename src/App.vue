@@ -1,5 +1,52 @@
 <template>
   <v-app>
+    <v-app-bar
+                absolute
+                color="white"
+                elevate-on-scroll
+                scroll-target="#scrolling-techniques-7"
+              >
+                <img class="logo" src="./assets/logo.png" alt="">
+
+                <v-toolbar-title>CityScienceLab Corona Routine Monitoring</v-toolbar-title>
+
+                <v-spacer></v-spacer>
+
+                <v-speed-dial
+                  v-model="fab"
+                  top
+                  right
+                  absolute
+                  direction="bottom"
+                  open-on-hover
+                  transition="slide-y-transition"
+                >
+                  <template v-slot:activator>
+                    <v-btn
+                      v-model="fab"
+                      color="primary"
+                      dark
+                      fab
+                    >
+                      <v-icon v-if="fab">mdi-close</v-icon>
+                      <v-icon v-else>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="secondary"
+                    @click="signOut"
+                  >
+                    <v-icon>backspace</v-icon>
+                  </v-btn>
+                </v-speed-dial>
+              </v-app-bar>
+              <v-sheet
+                id="scrolling-techniques-7"
+                class="overflow-y-auto"
+              >
       <v-content>
         <v-container
           fluid
@@ -12,61 +59,16 @@
             <v-flex
               xs12
               sm8
-              md6
+              md8
             >
-                <v-app-bar
-              absolute
-              color="white"
-              elevate-on-scroll
-              scroll-target="#scrolling-techniques-7"
-            >
-              <img class="logo" src="./assets/logo.png" alt="">
-
-              <v-toolbar-title>CityScienceLab Corona Routine Monitoring</v-toolbar-title>
-
-              <v-spacer></v-spacer>
-
-              <v-speed-dial
-                v-model="fab"
-                top
-                right
-                absolute
-                direction="bottom"
-                open-on-hover
-                transition="slide-y-transition"
-              >
-                <template v-slot:activator>
-                  <v-btn
-                    v-model="fab"
-                    color="primary"
-                    dark
-                    fab
-                  >
-                    <v-icon v-if="fab">mdi-close</v-icon>
-                    <v-icon v-else>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-                <v-btn
-                  fab
-                  dark
-                  small
-                  color="secondary"
-                  @click="signOut"
-                >
-                  <v-icon>backspace</v-icon>
-                </v-btn>
-              </v-speed-dial>
-            </v-app-bar>
-            <v-sheet
-              id="scrolling-techniques-7"
-              class="overflow-y-auto"
-            >
-              <router-view />
-              </v-sheet>
+                <router-view />
+              
             </v-flex>
           </v-layout>
         </v-container>
       </v-content>
+      </v-sheet>
+      <simple-dialog></simple-dialog>
   </v-app>
 </template>
 
@@ -74,16 +76,16 @@
 import Vue from 'vue'
 import store from './store';
 import router from './router';
-
+import SimpleDialog from './components/SimpleDialog.vue';
 export default Vue.extend({
   name: 'LabMonitoring',
 
   components: {
+    SimpleDialog
   },
 
   data: () => ({
-    fab: false,
-    api: process.env.VUE_APP_API_URL
+    fab: false
   }),
 
   methods: {
@@ -94,14 +96,18 @@ export default Vue.extend({
   },
 
   created () {
-    console.log(this.api);
     const loggedUser = this.$cookies.get('user');
+    const lastSubmission = this.$cookies.get('lastSubmission');
+
+    if (lastSubmission) {
+      store.commit('formData', lastSubmission);
+    }
 
     if (loggedUser) {
       store.commit('user', loggedUser);
       router.push('survey');
     }
-  }
+  },
 })
 </script>
 <style lang="scss">

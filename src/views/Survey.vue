@@ -5,9 +5,9 @@
       dark
       flat
     >
-      <v-toolbar-title>Umfrage</v-toolbar-title>
+      <v-toolbar-title>Survey</v-toolbar-title>
     </v-toolbar>
-    <v-subheader>You can always update your Submission for one day</v-subheader>
+    <v-subheader>You can always update your Submission for one <br>Your last submission will be saved as a cookie for convenience.</v-subheader>
     <v-card-text>
       <v-form
         ref="form"
@@ -26,7 +26,13 @@
 
           <v-text-field
             v-model="user.plzHome"
-            label="PLZ Wohnort"
+            label="PLZ Home"
+            disabled
+          ></v-text-field>
+
+          <v-text-field
+            v-model="user.plzWork"
+            label="PLZ Work"
             disabled
           ></v-text-field>
 
@@ -59,6 +65,14 @@
               value="D"
             ></v-radio>
           </v-radio-group>
+          <v-combobox
+            v-model="user.work"
+            label="Line of Work / Profession"
+            hint="Multiple selections possible. Add your own."
+            multiple
+            chips
+            disabled
+          ></v-combobox>
         </v-col>
 
         <!-- <v-text-field
@@ -83,7 +97,7 @@
           <h3>Video Calls / Screen Time</h3>
           <v-combobox
             v-model="formData.videoApp"
-            :items="videoApps"
+            :items="defaults.videoApps"
             label="What Video Call App have you used?"
             hint="Multiple selections possible"
             multiple
@@ -141,18 +155,54 @@
             v-model="formData.peopleMetRealWorld"
             label="People met in person"
           ></v-text-field>
+          <v-radio-group
+            row
+            v-model="formData.relPeopleMetRealWorld"
+            label="Relative to normal times?"
+          >
+            <v-radio
+              v-for="(str, i) in defaults.relValues"
+              :key="i"
+              :label="`${str}`"
+              :value="i"
+            ></v-radio>
+          </v-radio-group>
 
           <v-text-field
             type="number"
             v-model="formData.peopleMetOnline"
             label="People met online"
           ></v-text-field>
+          <v-radio-group
+            row
+            v-model="formData.relPeopleMetOnline"
+            label="Relative to normal times?"
+          >
+            <v-radio
+              v-for="(str, i) in defaults.relValues"
+              :key="i"
+              :label="`${str}`"
+              :value="i"
+            ></v-radio>
+          </v-radio-group>
 
           <v-text-field
             type="number"
             v-model="formData.familyHours"
             label="Time spend with your family"
           ></v-text-field>
+          <v-radio-group
+            row
+            v-model="formData.relFamilyHours"
+            label="Relative to normal times?"
+          >
+            <v-radio
+              v-for="(str, i) in defaults.relValues"
+              :key="i"
+              :label="`${str}`"
+              :value="i"
+            ></v-radio>
+          </v-radio-group>
         </v-col>
 
         <v-col>
@@ -169,6 +219,40 @@
             suffix="h"
             label="Hours spent outside"
           ></v-text-field>
+          <v-radio-group
+            row
+            v-model="formData.relOutsideHours"
+            label="Relative to normal times?"
+          >
+            <v-radio
+              v-for="(str, i) in defaults.relValues"
+              :key="i"
+              :label="`${str}`"
+              :value="i"
+            ></v-radio>
+          </v-radio-group>
+        </v-col>
+
+        <v-col>
+          <h3>Work</h3>
+          <v-text-field
+            type="number"
+            v-model="formData.workHours"
+            suffix="h"
+            label="Hours worked"
+          ></v-text-field>
+          <v-radio-group
+            row
+            v-model="formData.relWorkHours"
+            label="Relative to normal times?"
+          >
+            <v-radio
+              v-for="(str, i) in defaults.relValues"
+              :key="i"
+              :label="`${str}`"
+              :value="i"
+            ></v-radio>
+          </v-radio-group>
         </v-col>
 
         <v-col>
@@ -218,49 +302,51 @@ export default Vue.extend({
     moodRules: [
       v => (!v || !(v as string).includes(' ')) || 'Please enter only 1 word'
     ],
-    videoApps: [
-      'Skype',
-      'WebEx',
-      'Zoom',
-      'Wire',
-      'WhatsApp Video Call'
-    ],
     checkbox: false,
     lazy: false,
-    formData: {
-      id: store.state.userid,
-      mood: 3,
-      moodTag: '',
-      videoApp: null,
-      maxCallSize: 0,
-      avgCallSize: 0,
-      peopleMetRealWorld: 0,
-      peopleMetOnline: 0,
-      kmTravelled: 0,
-      outsideHours: 0,
-      familyHours: 0,
-      screenHours: 0,
-    },
     errors: []
   }),
 
   computed: {
     user () {
       return store.state.userdata;
+    },
+    formData () {
+      return store.state.formData;
+    },
+    defaults () {
+      return store.state.defaults;
     }
   },
 
   methods: {
     submit () {
       if (this.$refs.form.validate()) {
-        console.log(this.user, this.formData);
+        store.dispatch('formData');
+        this.$cookies.set('lastSubmission', this.formData);
+
         axios.post(process.env.VUE_APP_API_URL + '/submit', {
           id: store.state.userid,
           ...this.user,
           ...this.formData
         })
           .then(res => {
-            console.log(res.data);
+            if (res.status === 200) {
+              console.log(res.data);
+              store.dispatch('simpleDialog', {
+                title: 'Thank you!',
+                msg: '<p>Your entries have successfully been submitted!</p>'+
+                  '<small>You can always come back and edit your submission until 12pm!</small>'
+              });
+            }
+            else {
+              store.dispatch('simpleDialog', {
+                title: 'Oops...',
+                msg: '<p>Something went wrong :/ </p>'+
+                  "<p>We're probably working on it!</p>"+
+                  '<h4>Please come back and try again later!</h4>'
+              });
+            }
           })
           .catch(e => this.errors.push(e))
       } else {
