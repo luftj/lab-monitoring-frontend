@@ -113,10 +113,11 @@ export default Vue.extend({
   }),
   methods: {
     submit () {
-      Axios.post('http://localhost:5000/login', this.user)
+      Axios.post(process.env.VUE_APP_API_URL + '/login', this.user)
         .then(res => {
+          const userid = res.data.toString();
           const user = {
-            userid: res.data,
+            userid: userid,
             userdata: this.user
           }
 

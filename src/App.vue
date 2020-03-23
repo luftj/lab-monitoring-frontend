@@ -82,7 +82,8 @@ export default Vue.extend({
   },
 
   data: () => ({
-    fab: false
+    fab: false,
+    api: process.env.VUE_APP_API_URL
   }),
 
   methods: {
@@ -93,7 +94,7 @@ export default Vue.extend({
   },
 
   created () {
-    // this.$cookies.remove('user');
+    console.log(this.api);
     const loggedUser = this.$cookies.get('user');
 
     if (loggedUser) {
