@@ -28,44 +28,8 @@
           type="password"
         ></v-text-field> -->
 
-        <v-col>
-          <h3>About You</h3>
-          <v-text-field
-            v-model="user.plzHome"
-            :rules="plzRules"
-            :counter="5"
-            label="PLZ Wohnort"
-            required
-          ></v-text-field>
 
-          <v-text-field
-            v-model="user.age"
-            type="number"
-            label="Age"
-          ></v-text-field>
 
-          <v-radio-group
-            row
-            v-model="user.gender"
-            label="Gender"
-          >
-            <v-radio
-              key="F"
-              label="F"
-              value="F"
-            ></v-radio>
-            <v-radio
-              key="M"
-              label="M"
-              value="M"
-            ></v-radio>
-            <v-radio
-              key="D"
-              label="D"
-              value="D"
-            ></v-radio>
-          </v-radio-group>
-        </v-col>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -98,10 +62,7 @@ export default Vue.extend({
   name: 'Login',
   data: () => ({
     user: {
-      username: '',
-      plzHome: '',
-      age: '',
-      gender: ''
+      username: ''
     },
     nameRules: [
       v => !!v || 'Username is required'
@@ -116,17 +77,26 @@ export default Vue.extend({
       Axios.post(process.env.VUE_APP_API_URL + '/login', this.user)
         .then(res => {
           const userid = res.data.id.toString();
-          console.log(res.data.userdata)
+          
           const user = {
             userid: userid,
             userdata: this.user
           }
 
+          const userdata_response = JSON.parse(res.data.userdata)
+          if( !userdata_response || Object.keys(userdata_response).length == 0 ) {
+            console.log("not got userdata")
+            router.push('generalinfo');
+          }
+          else {
+            console.log("got userdata")
+            user.userdata = userdata_response;
+            user.userdata.username = this.user.username;
+            router.push('survey');
+          }
+          console.log(user);
           store.commit('user', user);
           this.$cookies.set('user', user);
-
-          console.log(user);
-          router.push('survey');
         })
     }
   }
