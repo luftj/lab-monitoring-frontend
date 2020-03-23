@@ -7,6 +7,7 @@
     >
       <v-toolbar-title>Anmelden</v-toolbar-title>
     </v-toolbar>
+    <v-subheader>Please enter some general information about yourself. This meta information is saved as a cookie to your computer for convenience, so you don't have to re-enter it everytime.</v-subheader>
     <v-card-text>
       <v-form>
         <v-text-field
@@ -69,12 +70,12 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-tooltip bottom>
+      <!-- <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn color="secondary" to="/sign-up" outlined v-on="on">Registrieren</v-btn>
         </template>
         <span>Es werden keine persönlichen Daten erhoben oder gespeichert.</span>
-      </v-tooltip>
+      </v-tooltip> -->
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn color="primary" v-on="on" @click="submit">Anmelden</v-btn>
@@ -122,6 +123,7 @@ export default Vue.extend({
           store.commit('user', user);
           this.$cookies.set('user', user);
 
+          console.log(user);
           router.push('survey');
         })
     }
