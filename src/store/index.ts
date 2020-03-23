@@ -63,8 +63,10 @@ export default new Vuex.Store({
     simpleDialog: {
       toggle: false,
       title: '',
-      msg: ''
-    }
+      msg: '',
+      confirm: null
+    },
+    cookies: null
   },
   mutations: {
     user (state, data) {
@@ -80,8 +82,10 @@ export default new Vuex.Store({
     simpleDialogData (state, data) {
       state.simpleDialog.title = data.title;
       state.simpleDialog.msg = data.msg;
-
-      console.log(data);
+      state.simpleDialog.confirm = data.confirm || null;
+    },
+    cookies (state, val) {
+      state.cookies = val;
     }
   },
   actions: {
@@ -93,6 +97,9 @@ export default new Vuex.Store({
     simpleDialog ({commit}, data) {
       this.commit('simpleDialogData', data);
       this.commit('simpleDialogToggle', true);
+    },
+    dialogAnswer({commit}, answer) {
+      this.commit(answer[0], answer[1]);
     }
   },
   modules: {

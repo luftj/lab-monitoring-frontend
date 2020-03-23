@@ -88,16 +88,45 @@ export default Vue.extend({
     fab: false
   }),
 
+  computed: {
+    cookiesAllowed () {
+      return store.state.cookies;
+    }
+  },
+
+  watch: {
+    cookiesAllowed (val) {
+      this.$cookies.set('permission', val);
+    }
+  },
+
   methods: {
     signOut () {
       this.$cookies.remove('user');
+      this.$cookies.remove('permission');
       router.push('/login')
     }
   },
 
   created () {
+    this.$cookies.remove('permission');
+
     const loggedUser = this.$cookies.get('user');
     const lastSubmission = this.$cookies.get('lastSubmission');
+    const permission = this.$cookies.get('permission');
+
+    if (!permission) {
+      store.dispatch('simpleDialog', {
+        title: 'This Website uses Cookies',
+        msg: '<p>We use cookies to keep you logged in and to store your latest submission for later, as a convenience service.</p>'+
+          "<p><b>We don't track any personal information regarding you or your system! All information provided is anonymous and for scientific purposes only.<br/>"+
+          "See imprint for further information.</b></p>"+
+          "<h2>ツ</h2>",
+        confirm: "cookies"
+      });
+    } else {
+      store.commit("cookies", true);
+    }
 
     if (lastSubmission) {
       store.commit('formData', lastSubmission);

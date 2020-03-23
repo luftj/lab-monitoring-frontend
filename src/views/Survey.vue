@@ -75,14 +75,6 @@
           ></v-combobox>
         </v-col>
 
-        <!-- <v-text-field
-          v-model="formData.plzWork"
-          :rules="plzRules"
-          :counter="5"
-          label="PLZ Arbeitsplatz"
-          required
-        ></v-text-field> -->
-
         <!-- <v-select
           v-model="formData.videoApp"
           :items="videoApps"
@@ -309,7 +301,6 @@ export default Vue.extend({
 
   computed: {
     user () {
-      console.log(store.state.userdata)
       return store.state.userdata;
     },
     formData () {
@@ -324,7 +315,10 @@ export default Vue.extend({
     submit () {
       if (this.$refs.form.validate()) {
         store.dispatch('formData');
-        this.$cookies.set('lastSubmission', this.formData);
+
+        if (store.state.cookies) {
+          this.$cookies.set('lastSubmission', this.formData, new Date().setHours(24,0,0,0));
+        }
 
         axios.post(process.env.VUE_APP_API_URL + '/submit', {
           id: store.state.userid,
@@ -341,18 +335,23 @@ export default Vue.extend({
               });
             }
             else {
-              store.dispatch('simpleDialog', {
-                title: 'Oops...',
-                msg: '<p>Something went wrong :/ </p>'+
-                  "<p>We're probably working on it!</p>"+
-                  '<h4>Please come back and try again later!</h4>'
-              });
+              this.alertError();
             }
           })
-          .catch(e => this.errors.push(e))
+          .catch(e => {
+            this.alertError();
+          })
       } else {
         alert('Please fill in all required fields.')
       }
+    },
+    alertError() {
+      store.dispatch('simpleDialog', {
+        title: 'Oops...',
+        msg: '<b>Something went wrong :/ </b><br />'+
+          "We're probably working on it!</p>"+
+          '<h4>Please come back and try again later!</h4>'
+      });
     },
     reset () {
       this.$refs.form.reset()

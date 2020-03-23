@@ -1,7 +1,7 @@
 <template>
     <v-dialog
       v-model="dialog.toggle"
-      max-width="290"
+      max-width="450"
     >
       <v-card>
         <v-card-title class="headline">{{dialog.title}}</v-card-title>
@@ -16,9 +16,18 @@
           <v-btn
             color="green darken-1"
             text
-            @click="dismiss"
+            @click="dismiss(true)"
           >
             OK
+          </v-btn>
+
+          <v-btn
+            v-if="dialog.confirm"
+            color="red darken-1"
+            text
+            @click="dismiss(false)"
+          >
+            Deny
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -35,8 +44,12 @@ export default Vue.extend({
         }
     },
     methods: {
-        dismiss () {
+        dismiss (answer) {
             store.commit('simpleDialogToggle', false);
+
+            if (this.dialog.confirm) {
+              store.dispatch('dialogAnswer', [this.dialog.confirm, answer]);
+            }
         }
     }
 })

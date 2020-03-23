@@ -99,7 +99,10 @@ export default Vue.extend({
           }
           console.log(user);
           store.commit('user', user);
-          this.$cookies.set('user', user);
+
+          if (store.state.cookies) {
+            this.$cookies.set('user', user);
+          }
         })
     }
   }
