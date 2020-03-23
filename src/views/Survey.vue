@@ -17,6 +17,7 @@
         <v-col>
           <h3>About You</h3>
           <v-text-field
+            v-model="user.username"
             label="Nickname"
             hint="Please always use the same nickname"
             required
@@ -24,11 +25,13 @@
           ></v-text-field>
 
           <v-text-field
+            v-model="user.plzHome"
             label="PLZ Wohnort"
             disabled
           ></v-text-field>
 
           <v-text-field
+            v-model="user.age"
             type="number"
             label="Age"
             disabled
@@ -36,6 +39,7 @@
 
           <v-radio-group
             row
+            v-model="user.gender"
             label="Gender"
             disabled
           >
@@ -225,8 +229,6 @@ export default Vue.extend({
     lazy: false,
     formData: {
       id: store.state.userid,
-      plzHome: '',
-      gender: '',
       mood: 3,
       moodTag: '',
       videoApp: null,
