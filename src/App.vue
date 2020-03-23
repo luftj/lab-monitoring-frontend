@@ -6,7 +6,7 @@
                 elevate-on-scroll
                 scroll-target="#scrolling-techniques-7"
               >
-                <img class="logo" src="./assets/logo.png" alt="">
+                <img class="logo" src="./assets/logo.png" alt="" @click="openLink('/')">
 
                 <v-toolbar-title>CityScienceLab Corona Routine Monitoring</v-toolbar-title>
 
@@ -36,10 +36,28 @@
                     fab
                     dark
                     small
-                    color="secondary"
+                    color="red"
                     @click="signOut"
                   >
                     <v-icon>backspace</v-icon>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="green darken-2"
+                    @click="openInfo"
+                  >
+                    <v-icon>info</v-icon>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="blue"
+                    @click="openLink('imprint')"
+                  >
+                    <v-icon>alternate_email</v-icon>
                   </v-btn>
                 </v-speed-dial>
               </v-app-bar>
@@ -102,15 +120,24 @@ export default Vue.extend({
 
   methods: {
     signOut () {
-      this.$cookies.remove('user');
-      this.$cookies.remove('permission');
-      router.push('/login')
+      if (confirm('Do you really want to sign out?')) {
+        this.$cookies.remove('user');
+        this.$cookies.remove('permission');
+        router.push('/login');
+      }
+    },
+    openInfo () {
+      store.dispatch('simpleDialog', {
+        title: 'CSL Corona Routine Monitoring',
+        msg: 'Info coming soon...'
+      });
+    },
+    openLink (route) {
+      router.push(route);
     }
   },
 
   created () {
-    this.$cookies.remove('permission');
-
     const loggedUser = this.$cookies.get('user');
     const lastSubmission = this.$cookies.get('lastSubmission');
     const permission = this.$cookies.get('permission');
@@ -149,6 +176,7 @@ export default Vue.extend({
   .logo {
     height:80%;
     margin:5px 20px 5px 5px;
+    cursor:pointer;
   }
   .overflow-y-auto {
     margin-top: 80px;

@@ -104,7 +104,7 @@ export default Vue.extend({
             this.$cookies.set('user', user);
           }
         })
-    }
+    },
   }
 })
 </script>
