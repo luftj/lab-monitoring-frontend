@@ -113,7 +113,7 @@ export default Vue.extend({
   }),
   methods: {
     submit () {
-      Axios.post('http://localhost:5000/login', this.user)
+      Axios.post('http://192.168.13.7:5000/login', this.user)
         .then(res => {
           const user = {
             userid: res.data,

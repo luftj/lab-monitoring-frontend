@@ -254,7 +254,7 @@ export default Vue.extend({
     submit () {
       if (this.$refs.form.validate()) {
         console.log(this.user, this.formData);
-        axios.post('http://localhost:5000/submit', {
+        axios.post('http://192.168.13.7:5000/submit', {
           id: store.state.userid,
           ...this.user,
           ...this.formData
