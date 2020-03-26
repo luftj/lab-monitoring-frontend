@@ -127,7 +127,7 @@
               <v-radio
                 v-for="n in 5"
                 :key="n"
-                :label="`${n}`"
+                :label="`${n} ${(n===1)?'(Miserable)':(n===5)?'(Awesome)':''}`"
                 :value="n"
               ></v-radio>
             </v-radio-group>
