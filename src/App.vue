@@ -79,7 +79,7 @@
               sm8
               md8
             >
-                <router-view />
+                <router-view @openFirstTimeInfo="openInfo" />
               
             </v-flex>
           </v-layout>
@@ -123,13 +123,27 @@ export default Vue.extend({
       if (confirm('Do you really want to sign out?')) {
         this.$cookies.remove('user');
         this.$cookies.remove('permission');
+        this.$cookies.remove('lastSubmission');
         router.push('/login');
       }
     },
     openInfo () {
       store.dispatch('simpleDialog', {
         title: 'CSL Corona Routine Monitoring',
-        msg: 'Info coming soon...'
+        msg: '<h4><i>#CoRoMo</i></h4>'+
+          '<h2>Welcome to the daily Corona Survey of CityScienceLab @ HafenCity Hamburg</h2>'+
+          '<h4>COVID-19 is changing life all around the globe drastically. All our well cultivated habits and everyday lives are turned upside-down.</h4>'+
+          '<p>Some jobs, such as medical personnel, food retailers are heavily requested, some work a lot but remotely, others are afraid of losing their jobs. '+
+          'We spent more time at home, travel less, spend more time with our families</p>'+
+          '<p>At the <a target="_blank" href="">CityScienceLab</a> of <a target="_blank" href="https://hcu-hamburg.de">HCU Hamburg</a>, we want to find out how COVID-19 impacts society and affects our social lives.</p>'+
+          '<h4>Daily Survey</h4>'+
+          '<p>Therefor we created this daily survey, trying to establish a timeline of the pandemic. Every participant is asked to provide a self chosen username and some meta information one time. '+
+          'Afterwards we hope you return every day and provide as much <i>anonymous</i> information as possible! <i>But all answers are optional!</i></p>'+
+          '<p>We are working on adding <b>new questions</b> all the time and building a <b>dashboard</b> for you to view your personal results as well as the averaged statistics!</p>'+
+          '<h4>A German Translation is also under development! Eine deutsche Übersetzung befindet sich zur Zeit in Entwicklung!</h4>'+
+          '<h4>We are not tracking any personal information or using any online tracking software! All data provided is for scientific purposes only and strictly anonymous! '+
+          'See the <a href="/#/imprint">imprint</a> for any legal information!</h4>'
+
       });
     },
     openLink (route) {
@@ -151,7 +165,8 @@ export default Vue.extend({
           "<h2>ツ</h2>",
         confirm: "cookies"
       });
-    } else {
+    } 
+    else {
       store.commit("cookies", true);
     }
 

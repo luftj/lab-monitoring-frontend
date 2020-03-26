@@ -1,7 +1,7 @@
 <template>
     <v-dialog
       v-model="dialog.toggle"
-      max-width="450"
+      max-width="560"
     >
       <v-card>
         <v-card-title class="headline">{{dialog.title}}</v-card-title>

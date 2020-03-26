@@ -311,6 +311,12 @@ export default Vue.extend({
     }
   },
 
+  mounted () {
+    // if (!this.$cookies.get('lastSubmission')) {
+      this.$emit('openFirstTimeInfo');
+    // }
+  },
+
   methods: {
     submit () {
       if (this.$refs.form.validate()) {

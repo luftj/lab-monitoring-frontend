@@ -51,7 +51,6 @@
 <script lang="ts">
 // @ is an alias to /src
 import Vue from 'vue'
-import HelloWorld from '@/components/HelloWorld.vue'
 import Axios from 'axios'
 import store from '../store'
 import router from '../router'
@@ -66,7 +65,7 @@ export default Vue.extend({
       v => !!v || 'Username is required'
     ],
     plzRules: [
-      v => !!v || 'ZIP Code is required',
+      v => !!v || 'PLZ is required',
       v => (v && !isNaN(parseInt(v, 10)) && v.length === 5) || 'PLZ muss aus 5 Ziffern bestehen'
     ],
   }),
@@ -87,7 +86,7 @@ export default Vue.extend({
           }
 
           const userdata_response = JSON.parse(res.data.userdata)
-          if( !userdata_response || Object.keys(userdata_response).length == 0 ) {
+          if( !userdata_response || Object.keys(userdata_response).length === 0 ) {
             console.log("not got userdata")
             router.push('generalinfo');
           }
