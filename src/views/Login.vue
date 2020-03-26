@@ -85,7 +85,7 @@ export default Vue.extend({
             userdata: this.user
           }
 
-          const userdata_response = JSON.parse(res.data.userdata)
+          const userdata_response = res.data.userdata
           if( !userdata_response || Object.keys(userdata_response).length === 0 ) {
             console.log("not got userdata")
             router.push('generalinfo');
