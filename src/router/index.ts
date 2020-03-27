@@ -16,10 +16,10 @@ const routes = [
     name: 'Login',
     component: Login
   },
-  {
-    path: '/sign-up',
-    component: Login
-  },
+  // {
+  //   path: '/sign-up',
+  //   component: Login
+  // },
   {
     path: '/imprint',
     component: () => import(/* webpackChunkName: "about" */ '../views/Imprint.vue')
