@@ -108,6 +108,9 @@ export default Vue.extend({
       return store.state.defaults;
     }
   },
+  mounted() {
+    console.log(this.user.username);
+  },
   methods: {
     submit () {
       Axios.post(process.env.VUE_APP_API_URL + '/login', this.user)

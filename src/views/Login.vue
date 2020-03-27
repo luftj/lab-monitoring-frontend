@@ -88,7 +88,7 @@ export default Vue.extend({
           const userdata = res.data.userdata
           if( !userdata || Object.keys(userdata).length === 0 ) {
             console.log("not got userdata")
-
+            store.commit('user', user);
             router.push('generalinfo');
           }
           else {
