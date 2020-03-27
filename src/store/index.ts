@@ -14,6 +14,7 @@ export default new Vuex.Store({
       work: null
     },
     formData: {
+      yesterday: false,
       mood: null,
       moodTag: '',
       videoApp: null,
@@ -25,6 +26,8 @@ export default new Vuex.Store({
       relPeopleMetOnline: null,
       kmTravelled: null,
       outsideHours: null,
+      meansOfTransport: null,
+      importantPlace: null,
       familyHours: null,
       relFamilyHours: null,
       screenHours: null,
@@ -59,6 +62,26 @@ export default new Vuex.Store({
         'Retail',
         'Agriculture'
       ],
+      places: [
+        'Park',
+        'Habour',
+        'Restaurant',
+        'Church/Mosque/Synagoge',
+        'Grocery Store',
+        'Sports Field'
+      ],
+      transports: [
+        'Walk',
+        'Bike',
+        'Bus',
+        'U-Bahn',
+        'S-Bahn',
+        'Carsharing',
+        'Car',
+        'E-Scooter',
+        'Train',
+        'Plane'
+      ]
     },
     simpleDialog: {
       toggle: false,

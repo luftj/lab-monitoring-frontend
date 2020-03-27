@@ -7,7 +7,19 @@
     >
       <v-toolbar-title>Survey</v-toolbar-title>
     </v-toolbar>
-    <v-subheader>You can always update your Submission for one <br>Your last submission will be saved as a cookie for convenience.</v-subheader>
+    <v-card-title primary-title>
+      How was your day today?
+      <v-spacer></v-spacer>
+      <v-checkbox
+        v-model="formData.yesterday"
+        :label="`This is for yesterday ${formData.yesterday ? '(' + new Date(new Date().setHours(-24)).toLocaleDateString() + ')' : ''}`"
+      ></v-checkbox>
+    </v-card-title>
+    <v-subheader>
+      You can always update your Submission for  today until 12am!<br>
+      But you feel you have forgotten something you can still submit a change for the previous day (see top right).<br>
+      Your last submission will be saved as a cookie for convenience.
+    </v-subheader>
     <v-card-text>
       <v-form
         ref="form"
@@ -87,66 +99,112 @@
 
         <v-col>
           <h3>Video Calls / Screen Time</h3>
-          <v-combobox
-            v-model="formData.videoApp"
-            :items="defaults.videoApps"
-            label="What Video Call App have you used?"
-            hint="Multiple selections possible"
-            multiple
-            chips
-          ></v-combobox>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-combobox
+                v-on="on"
+                v-model="formData.videoApp"
+                :items="defaults.videoApps"
+                label="What Video Call App have you used?"
+                hint="Multiple selections possible"
+                multiple
+                chips
+              ></v-combobox>
+            </template>
+            <span>You can choose from the selection below or enter your own.</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-on="on"
+                v-model="formData.avgCallSize"
+                type="number"
+                label="Avg. Number of People in a Call"
+              ></v-text-field>
+            </template>
+            <span>With how many people do speak at once in general?</span>
+          </v-tooltip>
 
-          <v-text-field
-            v-model="formData.avgCallSize"
-            type="number"
-            label="Avg. Number of People in a Call"
-          ></v-text-field>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-on="on"
+                v-model="formData.maxCallSize"
+                type="number"
+                label="Max. Number of People in one Call"
+              ></v-text-field>
+            </template>
+            <span>What was the maximum of people you spoke with at once?</span>
+          </v-tooltip>
 
-          <v-text-field
-            v-model="formData.maxCallSize"
-            type="number"
-            label="Max. Number of People in one Call"
-          ></v-text-field>
-
-          <v-text-field
-            v-model="formData.screenHours"
-            type="number"
-            label="Screen Hours Today"
-            suffix="h"
-          ></v-text-field>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-on="on"
+                v-model="formData.screenHours"
+                type="number"
+                label="Screen Hours Today"
+                suffix="h"
+              ></v-text-field>
+            </template>
+            <span>For how many hours did you stare at a screen today?</span>
+          </v-tooltip>
+            <v-radio-group
+              row
+              v-model="formData.relScreenHours"
+              label="Relative to normal times?"
+            >
+              <v-radio
+                v-for="(str, i) in defaults.relValues"
+                :key="i"
+                :label="`${str}`"
+                :value="i"
+              ></v-radio>
+            </v-radio-group>
         </v-col>
 
         <v-col>
           <h3>Mood</h3>
-          <v-radio-group
-              row
-              v-model="formData.mood"
-              label="Today"
-              hint="1: Miserable, 5: Awesome"
-            >
-              <v-radio
-                v-for="n in 5"
-                :key="n"
-                :label="`${n} ${(n===1)?'(Miserable)':(n===5)?'(Awesome)':''}`"
-                :value="n"
-              ></v-radio>
-            </v-radio-group>
-
-            <v-text-field
-              label="In One Word"
-              v-model="formData.moodTag"
-              :rules="moodRules"
-              hint="Describe your mood in one word."
-            ></v-text-field>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <div v-on="on">
+                <v-radio-group
+                  row
+                  v-model="formData.mood"
+                  label="Today"
+                >
+                  <v-radio
+                    v-for="n in 5"
+                    :key="n"
+                    :label="`${n}`"
+                    :value="n"
+                  ></v-radio>
+                </v-radio-group>
+              </div>
+            </template>
+            <span>How do you feel today? 1: Miserable - 5: Awesome</span>
+          </v-tooltip>
+          <v-text-field
+            label="In One Word"
+            v-model="formData.moodTag"
+            :rules="moodRules"
+            hint="Describe your mood in one word."
+          ></v-text-field>
         </v-col>
 
         <v-col>
           <h3>Encounters</h3>
-          <v-text-field
-            type="number"
-            v-model="formData.peopleMetRealWorld"
-            label="People met in person"
-          ></v-text-field>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-on="on"
+                type="number"
+                v-model="formData.peopleMetRealWorld"
+                label="People met in person"
+              ></v-text-field>
+            </template>
+            <span>How many people have you met today actually face to face?</span>
+          </v-tooltip>
           <v-radio-group
             row
             v-model="formData.relPeopleMetRealWorld"
@@ -160,11 +218,17 @@
             ></v-radio>
           </v-radio-group>
 
-          <v-text-field
-            type="number"
-            v-model="formData.peopleMetOnline"
-            label="People met online"
-          ></v-text-field>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-on="on"
+                type="number"
+                v-model="formData.peopleMetOnline"
+                label="People met remotely"
+              ></v-text-field>
+            </template>
+            <span>How many people did you talk to via internet or phone? Texting counts too.</span>
+          </v-tooltip>
           <v-radio-group
             row
             v-model="formData.relPeopleMetOnline"
@@ -178,11 +242,17 @@
             ></v-radio>
           </v-radio-group>
 
-          <v-text-field
-            type="number"
-            v-model="formData.familyHours"
-            label="Time spend with your family"
-          ></v-text-field>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-on="on"
+                type="number"
+                v-model="formData.familyHours"
+                label="Time spend with your family"
+              ></v-text-field>
+            </template>
+            <span>How much time did you dedicate to your family? Kids, Parents, Relatives?</span>
+          </v-tooltip>
           <v-radio-group
             row
             v-model="formData.relFamilyHours"
@@ -223,6 +293,34 @@
               :value="i"
             ></v-radio>
           </v-radio-group>
+          
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-select
+                v-on="on"
+                v-model="formData.meansOfTransport"
+                :items="defaults.transports"
+                label="Means of Transportation"
+                chips
+                multiple
+              ></v-select>
+            </template>
+            <span>What means of transportation have you used today?</span>
+          </v-tooltip>
+
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-combobox
+                v-on="on"
+                v-model="formData.importantPlace"
+                :items="defaults.places"
+                label="Important Place visited"
+                chips
+              ></v-combobox>
+            </template>
+            <span>Was there a place that was especially important to you today? It can both be something personal or practial. Pick one or type in your own.</span>
+          </v-tooltip>
+
         </v-col>
 
         <v-col>

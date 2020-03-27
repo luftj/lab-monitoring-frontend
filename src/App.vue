@@ -36,19 +36,43 @@
                     fab
                     dark
                     small
-                    color="red"
-                    @click="signOut"
+                    color="green darken-2"
+                    @click="openLink('survey')"
                   >
-                    <v-icon>backspace</v-icon>
+                    <v-tooltip left>
+                      <template v-slot:activator="{ on }">
+                        <v-icon v-on="on">feedback</v-icon>
+                      </template>
+                      <span>To the Survey</span>
+                    </v-tooltip>
                   </v-btn>
                   <v-btn
                     fab
                     dark
                     small
-                    color="green darken-2"
+                    color="red"
+                    @click="signOut"
+                  >
+                    <v-tooltip left>
+                      <template v-slot:activator="{ on }">
+                        <v-icon v-on="on">backspace</v-icon>
+                      </template>
+                      <span>Sign Out</span>
+                    </v-tooltip>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="yellow darken-2"
                     @click="openInfo"
                   >
-                    <v-icon>info</v-icon>
+                    <v-tooltip left>
+                      <template v-slot:activator="{ on }">
+                        <v-icon v-on="on">info</v-icon>
+                      </template>
+                      <span>About</span>
+                    </v-tooltip>
                   </v-btn>
                   <v-btn
                     fab
@@ -57,7 +81,12 @@
                     color="blue"
                     @click="openLink('imprint')"
                   >
-                    <v-icon>alternate_email</v-icon>
+                    <v-tooltip left>
+                      <template v-slot:activator="{ on }">
+                        <v-icon v-on="on">alternate_email</v-icon>
+                      </template>
+                      <span>Imprint</span>
+                    </v-tooltip>
                   </v-btn>
                 </v-speed-dial>
               </v-app-bar>
@@ -167,7 +196,7 @@ export default Vue.extend({
     }
 
     if (lastSubmission) {
-      store.commit('formData', lastSubmission);
+      store.commit('formData', {...lastSubmission, ...{ yesterday: false }});
     }
 
     if (loggedUser) {
