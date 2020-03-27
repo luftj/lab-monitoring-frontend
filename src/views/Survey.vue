@@ -284,6 +284,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import store from '../store';
+import router from '../router';
 
 export default Vue.extend({
   name: 'Survey',
@@ -312,9 +313,12 @@ export default Vue.extend({
   },
 
   mounted () {
-    // if (!this.$cookies.get('lastSubmission')) {
+    if (!store.state.userid) {
+      router.push('login');
+    }
+    if (!this.$cookies.get('readme')) {
       this.$emit('openFirstTimeInfo');
-    // }
+    }
   },
 
   methods: {

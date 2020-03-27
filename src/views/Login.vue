@@ -85,19 +85,20 @@ export default Vue.extend({
             userdata: this.user
           }
 
-          const userdata_response = JSON.parse(res.data.userdata)
-          if( !userdata_response || Object.keys(userdata_response).length === 0 ) {
+          const userdata = res.data.userdata
+          if( !userdata || Object.keys(userdata).length === 0 ) {
             console.log("not got userdata")
+
             router.push('generalinfo');
           }
           else {
             console.log("got userdata")
-            user.userdata = userdata_response;
+            user.userdata = userdata;
             user.userdata.username = this.user.username;
+            store.commit('user', user);
             router.push('survey');
           }
           console.log(user);
-          store.commit('user', user);
 
           if (store.state.cookies) {
             this.$cookies.set('user', user);

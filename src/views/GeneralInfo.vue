@@ -119,7 +119,9 @@ export default Vue.extend({
           }
 
           store.commit('user', user);
-          this.$cookies.set('user', user);
+          if (store.state.cookies) {
+            this.$cookies.set('user', user);
+          }
 
           console.log(user);
           router.push('survey');

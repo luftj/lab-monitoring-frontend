@@ -2,6 +2,8 @@
     <v-dialog
       v-model="dialog.toggle"
       max-width="560"
+      scrollable
+      :persistent="dialog.persistent"
     >
       <v-card>
         <v-card-title class="headline">{{dialog.title}}</v-card-title>
@@ -46,10 +48,7 @@ export default Vue.extend({
     methods: {
         dismiss (answer) {
             store.commit('simpleDialogToggle', false);
-
-            if (this.dialog.confirm) {
-              store.dispatch('dialogAnswer', [this.dialog.confirm, answer]);
-            }
+            this.$emit(this.dialog.name, answer);
         }
     }
 })

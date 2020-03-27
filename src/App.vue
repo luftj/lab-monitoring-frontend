@@ -86,7 +86,7 @@
         </v-container>
       </v-content>
       </v-sheet>
-      <simple-dialog></simple-dialog>
+      <simple-dialog @cookies="cookiesAllowed" @readme="readme"></simple-dialog>
   </v-app>
 </template>
 
@@ -106,19 +106,14 @@ export default Vue.extend({
     fab: false
   }),
 
-  computed: {
-    cookiesAllowed () {
-      return store.state.cookies;
-    }
-  },
-
-  watch: {
+  methods: {
     cookiesAllowed (val) {
       this.$cookies.set('permission', val);
-    }
-  },
-
-  methods: {
+      store.commit("cookies", true);
+    },
+    readme (val) {
+      this.$cookies.set('readme', true);
+    },
     signOut () {
       if (confirm('Do you really want to sign out?')) {
         this.$cookies.remove('user');
@@ -129,6 +124,7 @@ export default Vue.extend({
     },
     openInfo () {
       store.dispatch('simpleDialog', {
+        name: 'readme',
         title: 'CSL Corona Routine Monitoring',
         msg: '<h4><i>#CoRoMo</i></h4>'+
           '<h2>Welcome to the daily Corona Survey of CityScienceLab @ HafenCity Hamburg</h2>'+
@@ -143,7 +139,6 @@ export default Vue.extend({
           '<h4>A German Translation is also under development! Eine deutsche Übersetzung befindet sich zur Zeit in Entwicklung!</h4>'+
           '<h4>We are not tracking any personal information or using any online tracking software! All data provided is for scientific purposes only and strictly anonymous! '+
           'See the <a href="/#/imprint">imprint</a> for any legal information!</h4>'
-
       });
     },
     openLink (route) {
@@ -158,12 +153,13 @@ export default Vue.extend({
 
     if (!permission) {
       store.dispatch('simpleDialog', {
+        name: 'cookies',
         title: 'This Website uses Cookies',
         msg: '<p>We use cookies to keep you logged in and to store your latest submission for later, as a convenience service.</p>'+
           "<p><b>We don't track any personal information regarding you or your system! All information provided is anonymous and for scientific purposes only.<br/>"+
           "See imprint for further information.</b></p>"+
           "<h2>ツ</h2>",
-        confirm: "cookies"
+        confirm: true
       });
     } 
     else {
@@ -183,7 +179,8 @@ export default Vue.extend({
 </script>
 <style lang="scss">
   html {
-    overflow-y: auto;
+    overflow-y: hidden !important;
+
   }
   .v-btn {
     margin: 5px;
@@ -194,6 +191,7 @@ export default Vue.extend({
     cursor:pointer;
   }
   .overflow-y-auto {
-    margin-top: 80px;
+    height: 100vh;
+    padding: 80px 0;
   }
 </style>
