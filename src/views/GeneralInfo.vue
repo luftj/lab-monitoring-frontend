@@ -9,7 +9,11 @@
     </v-toolbar>
     <v-subheader>Please enter some general information about yourself. You only have to enter this once.</v-subheader>
     <v-card-text>
-      <v-form>
+      <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation 
+      >
         <v-col>
           <h3>About You</h3>
           <v-text-field
@@ -88,6 +92,7 @@ import router from '../router'
 export default Vue.extend({
   name: 'GeneralInfo',
   data: () => ({
+    valid: true,
     user: {
       username: store.state.userdata.username,
       plzHome: '',
@@ -109,7 +114,7 @@ export default Vue.extend({
     }
   },
   created () {
-    window.addEventListener('keyup', (evt) => {
+    window.addEventListener('keydown', (evt) => {
       if (evt.keyCode === 13) {
         evt.preventDefault();
         this.submit();
@@ -121,22 +126,24 @@ export default Vue.extend({
   },
   methods: {
     submit () {
-      Axios.post(process.env.VUE_APP_API_URL + '/login', this.user)
-        .then(res => {
-          const userid = res.data.id.toString();
-          const user = {
-            userid: userid,
-            userdata: this.user
-          }
+      if (this.$refs.form.validate()) {
+        Axios.post(process.env.VUE_APP_API_URL + '/login', this.user)
+          .then(res => {
+            const userid = res.data.id.toString();
+            const user = {
+              userid: userid,
+              userdata: this.user
+            }
 
-          store.commit('user', user);
-          if (store.state.cookies) {
-            this.$cookies.set('user', user);
-          }
+            store.commit('user', user);
+            if (store.state.cookies) {
+              this.$cookies.set('user', user);
+            }
 
-          console.log(user);
-          router.push('survey');
-        })
+            console.log(user);
+            router.push('survey');
+          });
+      }
     }
   }
 })

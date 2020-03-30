@@ -79,7 +79,6 @@ export default Vue.extend({
       Axios.post(process.env.VUE_APP_API_URL + '/login', this.user)
         .then(res => {
           const userid = res.data.id.toString();
-          
           const user = {
             userid: userid,
             userdata: this.user
@@ -108,7 +107,7 @@ export default Vue.extend({
   },
 
   created () {
-    window.addEventListener('keyup', (evt) => {
+    window.addEventListener('keydown', (evt) => {
       if (evt.keyCode === 13) {
         evt.preventDefault();
         this.submit();
