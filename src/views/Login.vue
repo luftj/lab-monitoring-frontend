@@ -7,13 +7,13 @@
     >
       <v-toolbar-title>Anmelden</v-toolbar-title>
     </v-toolbar>
-    <v-subheader>Please enter some general information about yourself. This meta information is saved as a cookie to your computer for convenience, so you don't have to re-enter it everytime.</v-subheader>
+    <v-subheader>Please give yourself a username. That name should be unique and you should always use the same.</v-subheader>
     <v-card-text>
       <v-form>
         <v-text-field
           label="Username"
           name="username"
-          hint="Please enter a name of your choosing. Remember to always use the same."
+          hint="Usernames can consist of letters, numbers and special characters."
           prepend-icon="person"
           type="text"
           :rules="nameRules"
