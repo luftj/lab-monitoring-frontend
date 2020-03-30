@@ -110,7 +110,6 @@ export default Vue.extend({
   created () {
     window.addEventListener('keyup', (evt) => {
       if (evt.keyCode === 13) {
-        console.log('sth');
         evt.preventDefault();
         this.submit();
       }

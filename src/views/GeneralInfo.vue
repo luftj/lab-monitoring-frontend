@@ -108,6 +108,14 @@ export default Vue.extend({
       return store.state.defaults;
     }
   },
+  created () {
+    window.addEventListener('keyup', (evt) => {
+      if (evt.keyCode === 13) {
+        evt.preventDefault();
+        this.submit();
+      }
+    });
+  },
   mounted() {
     console.log(this.user.username);
   },
