@@ -414,9 +414,6 @@ export default Vue.extend({
     if (!store.state.userid) {
       router.push('login');
     }
-    if (!this.$cookies.get('readme')) {
-      this.$emit('openFirstTimeInfo');
-    }
   },
 
   methods: {

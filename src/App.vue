@@ -141,7 +141,9 @@ export default Vue.extend({
       store.commit("cookies", true);
     },
     readme (val) {
-      this.$cookies.set('readme', true);
+      if (store.state.cookies) {
+        this.$cookies.set('readme', true);
+      }
     },
     signOut () {
       if (confirm('Do you really want to sign out?')) {
@@ -156,7 +158,7 @@ export default Vue.extend({
         name: 'readme',
         title: 'CSL Corona Routine Monitoring',
         msg: '<h4><i>#CoRoMo</i></h4>'+
-          '<h2>Welcome to the daily Corona Survey of CityScienceLab @ HafenCity Hamburg</h2>'+
+          '<h2>Welcome to the daily Corona Survey of CityScienceLab @ HafenCity Universität Hamburg</h2>'+
           '<h4>COVID-19 is changing life all around the globe drastically. All our well cultivated habits and everyday lives are turned upside-down.</h4>'+
           '<p>Some jobs, such as medical personnel, food retailers are heavily requested, some work a lot but remotely, others are afraid of losing their jobs. '+
           'We spent more time at home, travel less, spend more time with our families</p>'+
@@ -193,6 +195,10 @@ export default Vue.extend({
     } 
     else {
       store.commit("cookies", true);
+    }
+
+    if (!this.$cookies.get('readme')) {
+      this.openInfo();
     }
 
     if (lastSubmission) {
