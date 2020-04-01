@@ -104,7 +104,6 @@ export default Vue.extend({
       v => !!v || 'Username is required'
     ],
     plzRules: [
-      v => !!v || 'ZIP Code is required',
       v => (v && !isNaN(parseInt(v, 10)) && v.length === 5) || 'PLZ muss aus 5 Ziffern bestehen'
     ],
   }),
