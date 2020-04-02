@@ -169,7 +169,7 @@ export default Vue.extend({
           '<p>We are working on adding <b>new questions</b> all the time and building a <b>dashboard</b> for you to view your personal results as well as the averaged statistics!</p>'+
           '<h4>A German Translation is also under development! Eine deutsche Übersetzung befindet sich zur Zeit in Entwicklung!</h4>'+
           '<h4>We are not tracking any personal information or using any online tracking software! All data provided is for scientific purposes only and strictly anonymous! '+
-          'See the <a href="/#/imprint">imprint</a> for any legal information!</h4>'
+          'See the <a href="#/imprint">imprint</a> for any legal information!</h4>'
       });
     },
     openLink (route) {
