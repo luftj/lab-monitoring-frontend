@@ -78,6 +78,20 @@
                     fab
                     dark
                     small
+                    color="pink"
+                    @click="openLink('generalinfo')"
+                  >
+                    <v-tooltip left>
+                      <template v-slot:activator="{ on }">
+                        <v-icon v-on="on">person</v-icon>
+                      </template>
+                      <span>Change User Data</span>
+                    </v-tooltip>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    dark
+                    small
                     color="blue"
                     @click="openLink('imprint')"
                   >

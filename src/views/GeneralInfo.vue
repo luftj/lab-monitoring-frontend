@@ -17,11 +17,17 @@
         <v-col>
           <h3>About You</h3>
           <v-text-field
+            v-model="user.country"
+            label="Country"
+            placeholder="Germany"
+          ></v-text-field>
+
+          <v-text-field
             v-model="user.plzHome"
             :rules="plzRules"
             :counter="5"
             label="PLZ Home"
-            required
+            hint="If you're not German, just enter you're City's name"
           ></v-text-field>
 
           <v-text-field
@@ -29,6 +35,7 @@
             :rules="plzRules"
             :counter="5"
             label="PLZ Work"
+            hint="If you're not German, just enter you're City's name"
           ></v-text-field>
 
           <v-text-field
@@ -98,13 +105,19 @@ export default Vue.extend({
       plzHome: '',
       age: '',
       gender: '',
-      work: null
+      work: null,
+      country: 'Germany'
     },
     nameRules: [
       v => !!v || 'Username is required'
     ],
     plzRules: [
-      v => (v && !isNaN(parseInt(v, 10)) && v.length === 5) || 'PLZ muss aus 5 Ziffern bestehen'
+      v => {
+        if (this.user.country === "Germany") {
+          return (!v) || (v && !isNaN(parseInt(v, 10)) && v.length === 5 || 'PLZ must consist of 5 letters');
+        }
+        else return true;
+      }
     ],
   }),
   computed: {
