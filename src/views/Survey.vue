@@ -136,6 +136,18 @@
             </template>
             <span>What was the maximum of people you spoke with at once?</span>
           </v-tooltip>
+          
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-on="on"
+                v-model="formData.numberCalls"
+                type="number"
+                label="Total number of calls"
+              ></v-text-field>
+            </template>
+            <span>How many phone or video calls did you make today?</span>
+          </v-tooltip>
 
           <v-tooltip top>
             <template v-slot:activator="{ on }">
