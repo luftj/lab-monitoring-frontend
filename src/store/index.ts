@@ -81,6 +81,12 @@ export default new Vuex.Store({
         'E-Scooter',
         'Train',
         'Plane'
+      ],
+      sporttypes: [
+        'Running',
+        'Riding Bicycle',
+        'Yoga',
+        'Workout'
       ]
     },
     simpleDialog: {
