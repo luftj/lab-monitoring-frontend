@@ -48,7 +48,6 @@
             <h4>Änderung unserer Datenschutzbestimmungen</h4>
             <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen, z.B. bei der Einführung neuer Services. Für Ihren erneuten Besuch gilt dann die neue Datenschutzerklärung.</p>
             <h4>Fragen zum Datenschutz</h4>
-            <p>Wenn Sie Fragen zum Datenschutz haben, schreiben Sie uns bitte eine <a href="mailto:daniel.schulz@hcu-hamburg.de">E-Mail</a>.</p>
         </v-card-text>
     </v-card>
 </template>
