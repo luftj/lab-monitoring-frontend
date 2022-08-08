@@ -13,8 +13,6 @@
             </p>
             <h4>Vertreten durch</h4>
             <p>Prof. Dr. Jörg Noennig, CityScienceLab, HafenCity Universität Hamburg</p>
-            <h4>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h4>
-            <p><a href="mailto:jonas.luft@hcu-hamburg.de">Jonas Luft</a>, <a href="mailto:daniel.schulz@hcu-hamburg.de">Daniel Schulz</a></p>
             <h4>Haftung für Inhalte</h4>
             <p>Das Angebot der HCU Hamburg besteht aus eigenen und fremden Inhalten.
                 Bezüglich eigener Inhalte besteht eine inhaltliche Verantwortlichkeit seitens der HCU Hamburg.
@@ -49,8 +47,6 @@
             <p>Um die Sicherheit Ihrer Daten bei der Übertragung zu schützen, verwenden wir dem aktuellen Stand der Technik entsprechende Verschlüsselungsverfahren (z. B. SSL) über HTTPS.</p>
             <h4>Änderung unserer Datenschutzbestimmungen</h4>
             <p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen, z.B. bei der Einführung neuer Services. Für Ihren erneuten Besuch gilt dann die neue Datenschutzerklärung.</p>
-            <h4>Fragen zum Datenschutz</h4>
-            <p>Wenn Sie Fragen zum Datenschutz haben, schreiben Sie uns bitte eine <a href="mailto:daniel.schulz@hcu-hamburg.de">E-Mail</a>.</p>
         </v-card-text>
     </v-card>
 </template>

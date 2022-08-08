@@ -136,6 +136,18 @@
             </template>
             <span>What was the maximum of people you spoke with at once?</span>
           </v-tooltip>
+          
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-on="on"
+                v-model="formData.numberCalls"
+                type="number"
+                label="Total number of calls"
+              ></v-text-field>
+            </template>
+            <span>How many phone or video calls did you make today?</span>
+          </v-tooltip>
 
           <v-tooltip top>
             <template v-slot:activator="{ on }">
@@ -321,6 +333,42 @@
             <span>Was there a place that was especially important to you today? It can both be something personal or practial. Pick one or type in your own.</span>
           </v-tooltip>
 
+        </v-col>
+
+        <v-col>
+          <h3>Sports</h3>
+          <v-text-field
+            type="number"
+            v-model="formData.sportsHours"
+            suffix="h"
+            label="Hours of physical exercise"
+          ></v-text-field>
+          <v-radio-group
+            row
+            v-model="formData.relSportsHours"
+            label="Relative to normal times?"
+          >
+            <v-radio
+              v-for="(str, i) in defaults.relValues"
+              :key="i"
+              :label="`${str}`"
+              :value="i"
+            ></v-radio>
+          </v-radio-group>
+
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-combobox
+                v-on="on"
+                v-model="formData.sportsType"
+                :items="defaults.sporttypes"
+                label="Type of exercise/activity"
+                chips
+                multiple
+              ></v-combobox>
+            </template>
+            <span>Which type(s) of sport or physical activity did you participate in today?. Pick one or type in your own.</span>
+          </v-tooltip>
         </v-col>
 
         <v-col>
