@@ -2,5 +2,14 @@ module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
-  lintOnSave: false
+  devServer: {
+    overlay: {
+      warnings: false,
+      errors: false
+    }
+  },
+  lintOnSave: false,
+  configureWebpack: {
+    // ..
+  }
 }
